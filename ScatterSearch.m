@@ -324,58 +324,58 @@ end
   % =======================================================================
   %                   CREATES THE FIRST REFERENCE SET
   % =======================================================================
-function result = diversify(diverse_set, num_elite, ref_set_size) % Cria o Reference Set
-  diverse_set = ordena(diverse_set); % diverse_set.sort {|x,y| x[:cost] <=> y[:cost]} % Reference Set Update Method , reorganiza o diverse set dos que tem os menores custos para os maiores
+function result = diversify(diverse_set, num_elite, ref_set_size) % Creates the first reference set
+  diverse_set = ordena(diverse_set); % diverse_set.sort {|x,y| x[:cost] <=> y[:cost]} % Reference Set Update Method, rearranges the diverse set from the smallest to the biggest costs
   for i = 1 : num_elite
-      ref_set(i) = diverse_set(i); % pega os primeiros valores do diverse set
+      ref_set(i) = diverse_set(i); % Collects the initial values from the diverse set
   end
   count = 1;
   while count <= (length(diverse_set)-length(ref_set))
 %for j = 1 :(length(diverse_set)-length(ref_set))
       for k =  length(ref_set)+1 : length(diverse_set) 
-         remainder(count) = diverse_set(k);  % vai me lembrar quem n?o pertence j? ao reference set
+         remainder(count) = diverse_set(k);  % Remainds values that doesn't belongs anymore to the reference set
      count = count + 1;
       end
   end
 for c = 1 : length(remainder)
-  remainder(c).distancia = soma(distance(remainder(c).vetor, ref_set)); % remainder.each{|c| c[:dist] = } % pego o reference set e tiro a distancia euclidiana entre cada objeto do reminder e o reference set
+  remainder(c).distancia = soma(distance(remainder(c).vetor, ref_set)); % remainder.each{|c| c[:dist] = } % Selects the reference set and finds the Euclidian distance between its object and the objects in the reminder, individually
 end
-  remainder = ordenaDistancia(remainder); % remainder.sort {|x,y| y[:dist]<=>x[:dist]} % organizo o remainder em fun??o da maior para a menor distancia euclidiana 
+  remainder = ordenaDistancia(remainder); % remainder.sort {|x,y| y[:dist]<=>x[:dist]} % Sort the reminder from the smallest to the biggest Euclidian distance 
   for l = 1 : num_elite
        ref_set(l).distancia = 0;
   end
   ref_set = [ref_set,remainder(1:num_elite)];
- % ref_set = [ref_set , remainder{0:(ref_set_size - ref_set.size)}];  % adiciona o primeiro valor do reminder cujo qual possui a maior distancia assim portanto tenho os cinco melhores valores do diverse_set + cinco valores que est?o mais distantes desses cinco melhores valores que est?o no reminder
-  result = ref_set; % retorna o reference set e o melhor valor do reference set
+ % ref_set = [ref_set , remainder{0:(ref_set_size - ref_set.size)}];
+  result = ref_set; % Returns the reference set and its best value
 end
 
   % =======================================================================
-  %                 FUNCAO DE SELECAO DOS SUBCONJUNTOS
+  %                        SUBSET SELECTION FUNCTION
   % =======================================================================
 function result = select_subsets(ref_set) % Subset Generation Method
 for i = 1 : length(ref_set)
     if ref_set(i).novo == true
         additions(i) = ref_set(i); % valores true do ref_set
     end
-end %ref_set.select{|c| c[:new]} % recebe os objetos do reference set cujos quais s?o novos (true)
+end %ref_set.select{|c| c[:new]} % Collects the most new values from the reference set (true values)
 for j = 1 : length(additions)
     remainder(j) = CreateEmptySruct (length(ref_set(1).vetor)) ;
 end
 for k = 1 : length(ref_set)
     if ref_set(k).novo == false
-        remainder(k) = ref_set(k); % valores false do ref_set
+        remainder(k) = ref_set(k); % false values from ref_set
     end
-end % remainder = ref_set - additions; % vai me lembrar quais n?o s?o novos (false)
+end % remainder = ref_set - additions; % reminds me which are the most new values (false)
   if (remainder(1).objetivo ~= 0) % remainder = additions if remainder.nil? or remainder.empty? 
      remainder = additions;
   end
       subsets{1,1} = additions;
       subsets{1,2} = remainder;
   %additions.each do |a| 
-  %  remainder.each{|r| subsets << [a,r] if a!=r && !subsets.include?([r,a])} % cria dois subsets com valores diferentes entre si e os preenche
+  %  remainder.each{|r| subsets << [a,r] if a!=r && !subsets.include?([r,a])} % Creates two subsets with two different values among them and fill them in
   %end
-  % os subsets s?o frutos de uma combina??o entre o aditions e o reminder 
-  result = subsets; % aqui tem-se duas colunas subsets[0][1] na qual cada coluna ? um subset, ou seja no subsetS existem dois subset do reminder!
+  % The subsets comes from a combination between aditions and reminder 
+  result = subsets; % Here we have two subsets[0][1] columns, where each column represents a subset, in another word subsetS hold two reminder subsets!
 end
 
   % =======================================================================
