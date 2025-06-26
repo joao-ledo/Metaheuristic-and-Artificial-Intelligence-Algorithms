@@ -379,13 +379,13 @@ end % remainder = ref_set - additions; % reminds me which are the most new value
 end
 
   % =======================================================================
-  %                   RECOMBINA PARA GERAR FILHOS
+  %                   RECOMBINES TO GENERATE THE OFFSPRING
   % =======================================================================
 function result = recombine(subset,x, y, minmax, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi) 
   a = x;
   b = y;
   for i = 1 : length(pgiMin)
-    d(i) = ((b.vetor(i) - a.vetor(i))/2); % d = Array.new(a[:vector].size) {|i|(b[:vector][i]-a[:vector][i])/2.0} % distancia m?dia entre o subset a e o subset b
+    d(i) = ((b.vetor(i) - a.vetor(i))/2); % d = Array.new(a[:vector].size) {|i|(b[:vector][i]-a[:vector][i])/2.0} % The average distance between subset a and subset b
   end
   children = [];
   directions = 0;
@@ -395,9 +395,9 @@ function result = recombine(subset,x, y, minmax, ai, bi, ci, ei, pgiMin, pgiMax,
         directions = directions + 1;
       else
           directions = directions - 1;
-      end % direction, r = ((rand<0.5) ? +1.0 : -1.0), rand % se True (valor novo) retorne +1 se n?o houver valores novos (false) retorne -1      
+      end % direction, r = ((rand<0.5) ? +1.0 : -1.0), rand % If True (new value) and returns +1, if there is no new values (false) returns -1
       for i = 1 : length(pgiMin)
-         vetor{1,1}.vetor(i) = subset{1,1}(p).vetor(i) + directions * r * d(i); % vetor = Array.new(minmax.size) {|j| p[:vector][j] + (direction * r * d[j])} % soma valores novos, retira se n?o for 
+         vetor{1,1}.vetor(i) = subset{1,1}(p).vetor(i) + directions * r * d(i); % vetor = Array.new(minmax.size) {|j| p[:vector][j] + (direction * r * d[j])} % Sum new values, and takes off if it isn't a new value
          vetor{1,2}.vetor(i) = subset{1,2}(p).vetor(i) + directions * r * d(i);
       end   
     for i = 1 : length(pgiMin)
@@ -419,10 +419,10 @@ function result = recombine(subset,x, y, minmax, ai, bi, ci, ei, pgiMin, pgiMax,
 end
 
   % =======================================================================
-  %                      EXPLORA OS SUBCONJUNTOS
+  %                           EXPLORE SUBSETS
   % =======================================================================
 function result = explore_subsets(bounds, ref_set, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi) % Solution Combination Method
-  % Explora um poss?vel candidatos melhorado de filhos gerados de subsets para atualizar o reference_set
+  % Search for better offspring candidates created from subsets to update the reference_set
   was_change = false;
   subsets = select_subsets(ref_set);
   for i = 1 :length(ref_set)
@@ -432,8 +432,8 @@ function result = explore_subsets(bounds, ref_set, max_no_improv, step_size, ai,
            x = subsets{1,1}(subset);
            y = subsets{1,2}(subset);
            candidates = recombine(subsets, x, y, bounds, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi);
-       for i = 1 : length(candidates) % improved = Array.new(candidates.size) do |i|  % improved ? feito nesse algoritimo de acordo com uma busca local dos candidatos recombinados dos subsets (os filhos dos subsets)
-          improved{1,i} = local_search(candidates{1,i}, bounds, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi); % faz uma busca local 
+       for i = 1 : length(candidates) % improved = Array.new(candidates.size) do |i|  % improved is created in this code from a local search on recombined candidates from subsets (subsets offspring)
+          improved{1,i} = local_search(candidates{1,i}, bounds, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi); % Local search 
           improved{1,i}.distancia = 0;
           improved{1,i}.novo = true;
        end
@@ -450,5 +450,5 @@ function result = explore_subsets(bounds, ref_set, max_no_improv, step_size, ai,
             end 
         end 
     end
-      result = was_change; % Retorna se houver novos valores no reference set
+      result = was_change; % Returns if there is a change (new values) in the reference set
 end
