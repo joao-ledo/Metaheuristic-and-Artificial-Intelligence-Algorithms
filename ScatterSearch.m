@@ -219,12 +219,12 @@ end
   % =======================================================================
   %                          LOCAL SEARCH FUNCTION
   % =======================================================================
-function result = local_search(best, bounds, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi) % A busca local ? feita de acordo com um passo (take_step) dado nos dados vizinhos
-  % o local search poderia ser feito ao inv?s de ser levado em considera??o o passo (take_step) poderia ser feita com uma algoritimo metaheur?stico como o tabu_search
+function result = local_search(best, bounds, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi) % The local search function is made according to the take_step towards its neighbors
+  % Instead of using take_step, the local search could be a metaheuristic search such as Tabu Search
   count = 0;
   while (count < max_no_improv)
     vetor = size(best.vetor);
-   % candidate{1,1} = size(best); % <------ OLHAR AQUI
+   % candidate{1,1} = size(best); % <------ Pay attention here
     vetor = take_step(bounds, best.vetor, step_size, pd, pgiMin, pgiMax);
     for i = 1:length(vetor)
       candidate.vetor = vetor;
