@@ -5,13 +5,13 @@
 %                                    Developed by Joao Augusto Silva Ledo %
 % ======================================================================= %
 
-% Algoritmo Scatter Search adaptado para funcionar com o problema de despacho do fator de pot?ncia el?trica
+% Scatter Search Algorithm implemented for the Optimal Power Flow Dispatch problem
 
 function result = ScatterSearch()
   clear all;
   clc;
   % =======================================================================
-  %                             3 GERADORES
+  %                             3 GENERATORS
   % =======================================================================
    problemSize = 3;
    ai = [0.001562, 0.00482, 0.00194];
@@ -24,7 +24,7 @@ function result = ScatterSearch()
    pd = 850; 
    
   % =======================================================================
-  %                             3 GERADORES
+  %                             3 GENERATORS
   % =======================================================================
 %       problemSize = 3;  
 %       pgiMin=[150.0, 135.0, 73.0] ;
@@ -37,7 +37,7 @@ function result = ScatterSearch()
 %       pd = 650;
 
   % =======================================================================
-  %                             13 GERADORES
+  %                             13 GENERATORS
   % =======================================================================
 %     problemSize = 13;
 %     pgiMin = [0.0, 0.0, 0.0, 60.0, 60.0, 60.0, 60.0, 60.0, 60.0, 40.0, 40.0, 55.0, 55.0]; 
@@ -50,7 +50,7 @@ function result = ScatterSearch()
 %     pd = 2520 ;
 
   % =======================================================================
-  %                             19 GERADORES
+  %                             19 GENERATORS
   % ======================================================================= 
 %    problemSize = 19;
 %    pgiMin = [100.0000, 120.0000, 100.0000, 8.0000, 50.0000, 150.0000, 50.0000, 100.0000, 200.0000, 15.0000, 50.0000, 25.0000, 50.0000, 0.0, 20.0000, 15.0000, 15.0000, 50.0000, 400.0000];
@@ -63,7 +63,7 @@ function result = ScatterSearch()
 %    pd = 2908;
  
   % =======================================================================
-  %                             40 GERADORES
+  %                             40 GENERATORS
   % =======================================================================
 %    problemSize = 40;
 %    pgiMin = [36, 36,	60,	80,	47,	68,	110,	135,	135,	130,	94,	94,	125,	125, 125,	125,	220,	220,	242, 242,	254,	254,	254,	254, 254,	254,	10,	10,	10,	47,	60 ,60, 60, 90, 90, 90, 25, 25, 25, 242];
@@ -95,13 +95,13 @@ function result = ScatterSearch()
     end
   for inter = 1:max_iter   
     was_change = explore_subsets(bounds, ref_set, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi);
-    ref_set = ordena(ref_set); % ref_set.sort~{|x,y| x[:cost] <=> y[:cost]}; % Reorganiza o reference set em fun??o do menor para o maior custo
-     if (ref_set(1).objetivo < best.objetivo) % Essa condi??o aqui ? importante no random vector
+    ref_set = ordena(ref_set); % ref_set.sort~{|x,y| x[:cost] <=> y[:cost]}; % Rearranges the reference set according to the smallest to the biggest costs
+     if (ref_set(1).objetivo < best.objetivo) % Inportant to the random vector
         best = ref_set(1);
      end
     if (was_change == ~was_change)
         break
-    end% para quando n?o hover mair trocas no reference set de novos valores
+    end % When there is no more new values changes in the reference set
     inter
     best.demanda = soma(best.vetor);
      result = best;   
@@ -109,7 +109,7 @@ function result = ScatterSearch()
  end
 
   % =======================================================================
-  %                       FUNCAO OBJETIVO
+  %                           OBJECTIVE FUNCTION
   % =======================================================================
 function result = objective_function(pgi, ai, bi, ci, ei, pgiMin, fi)
   soma = 0;
@@ -121,7 +121,7 @@ function result = objective_function(pgi, ai, bi, ci, ei, pgiMin, fi)
 end
 
   % =======================================================================
-  %                             SOMA
+  %                                SUMMING 
   % =======================================================================
 function result=soma(pgi)
         soma = 0;
@@ -132,7 +132,7 @@ function result=soma(pgi)
 end
     
   % =======================================================================
-  %                  CALCULO DO OBJETIVO COM OU SEM ERRO
+  %        OBJECTIVE FUNCTION WITH OR WITHOUT THE PENALTY TOLERANCE
   % =======================================================================
 function result = correcao(vector, ai, bi, ci, ei, pgiMin, fi, pd, pgiMax)
   soma_pd = soma(vector);
@@ -151,17 +151,17 @@ function result = correcao(vector, ai, bi, ci, ei, pgiMin, fi, pd, pgiMax)
 end
 
   % =======================================================================
-  %                    VALORES ALEATORIOS ENTRE MIN E MAX
+  %             RANDOM VALUES IN MINIMUM AND MAXIMUM BOUNDARIES
   % =======================================================================
 function result = rand_in_bounds(min, max)
   result = min + ((max-min) * rand());
 end
 
   % =======================================================================
-  %                    CRIA VETOR COM VALORES ALEATORIOS
+  %                  GENERATES AND ARRAY WITH RANDOM VALUES
   % =======================================================================
-function result = random_vector(minmax, pd, pgiMin, pgiMax) % essa fun??o n?o me garante sempre que o ultimo valor estar? entre os minimos e maximos, mas me garante uma taxa alta de ocorrencia, entretanto ela respeita sempre a lei de kirchoff
- % importante dessa fun??o ? chutar com coerencia!!
+function result = random_vector(minmax, pd, pgiMin, pgiMax) % This function has no guarantees that its last values are in min max boundaries, but there is a high chance of that happening, and the upside is that this function respects the Kirchoff law
+ % In another words, it creates coherent values!!
   vector = size(minmax);
   for i = 1:length(minmax)
     vector(i) = rand_in_bounds(pgiMin(i), pgiMax(i));
@@ -170,7 +170,7 @@ function result = random_vector(minmax, pd, pgiMin, pgiMax) % essa fun??o n?o me
 end
 
   % =======================================================================
-  %                   ENCONTRA O MENOR VALOR ENTRE DOIS
+  %               FINDS THE LOWEST VALUE BETWEEN TWO VALUES
   % =======================================================================
 function result = min(x,y)
 if (x < y)
@@ -182,7 +182,7 @@ result = minimo;
 end
 
   % =======================================================================
-  %                   ENCONTRA O MAIOR VALOR ENTRE DOIS
+  %                FINDS THE BIGGEST VALUE BETWEEN TWO VALUES
   % =======================================================================
 function result = max(x,y)
 if (x > y)
@@ -194,20 +194,20 @@ result = minimo;
 end
 
   % =======================================================================
-  %                           FUNCAO DO PASSO
+  %                            TAKEN STEP FUNCTION
   % =======================================================================
-function result = take_step(minmax, current, step_size, pd, pgiMin, pgiMax) % passo dado para os dados vizinhos, o tamanho desse passo ? c?lculado pelo minmax, que ? um percentual m?dio tirado do valor que se deseja encontrar para o lado (vizinhos)
+function result = take_step(minmax, current, step_size, pd, pgiMin, pgiMax) % Taken steps towards its neighbors. The step size is created based on minmax value, which is a percentage average taken from the neighborhood
   position = size(current);
   vetor = size(size(current));
   cont = 0;
   totalpercent = 100.0;
    for i = 1: length(current)
-    if(i == length(minmax)) % Se i estiver apontando para a ultima posi??o fa?a:
-        vetor(i) = pd * (totalpercent/100); % adicionar o percentual de restri??o de min?mos e m?ximos
+    if(i == length(minmax)) % If i is pointed to the last position do:
+        vetor(i) = pd * (totalpercent/100); % Add up to the percentual of the min and max constraint 
     else
       minimo = max(minmax{i}(1), current(i)-step_size);
       maximo = min(minmax{i}(2), current(i)+step_size); 
-      aleatorio = rand_in_bounds((minimo*100.0)/pd, (maximo*100.0)/pd);  % Respons?vel por chutar valores convenientes 
+      aleatorio = rand_in_bounds((minimo*100.0)/pd, (maximo*100.0)/pd);  % Accountable for randomly choosing convenient values
       totalpercent = totalpercent - aleatorio ;
       vetor(i) = pd * (aleatorio/100);
     end
@@ -217,7 +217,7 @@ function result = take_step(minmax, current, step_size, pd, pgiMin, pgiMax) % pa
 end
 
   % =======================================================================
-  %                         FUNCAO DA BUSCA LOCAL
+  %                          LOCAL SEARCH FUNCTION
   % =======================================================================
 function result = local_search(best, bounds, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi) % A busca local ? feita de acordo com um passo (take_step) dado nos dados vizinhos
   % o local search poderia ser feito ao inv?s de ser levado em considera??o o passo (take_step) poderia ser feita com uma algoritimo metaheur?stico como o tabu_search
