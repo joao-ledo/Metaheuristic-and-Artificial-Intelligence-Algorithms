@@ -241,7 +241,7 @@ function result = local_search(best, bounds, max_no_improv, step_size, ai, bi, c
 end
 
   % =======================================================================
-  %                      CONSTROI O CONJUNTO INICIAL
+  %                         CREATES THE INITIAL SET
   % =======================================================================
 function result = construct_initial_set(bounds, set_size, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi) % Diversification Generation Method
   diverse_set = {};
@@ -249,7 +249,7 @@ function result = construct_initial_set(bounds, set_size, max_no_improv, step_si
   while (length(diverse_set) < set_size )     
      cand(count).vetor = random_vector(bounds, pd, pgiMin, pgiMax);
      cand(count).objetivo = correcao(cand(count).vetor, ai, bi, ci, ei, pgiMin, fi, pd, pgiMax); 
-     cand(count) = local_search(cand(count), bounds, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi);  % Refina os resultados para preencher o diverse_set com uma busca local     
+     cand(count) = local_search(cand(count), bounds, max_no_improv, step_size, ai, bi, ci, ei, pgiMin, pgiMax, pd, fi);  % Selects through a local search the best results to fill in the diverse_set     
      diverse_set = cand;  
      count = count + 1;
   end 
@@ -257,9 +257,9 @@ function result = construct_initial_set(bounds, set_size, max_no_improv, step_si
 end
 
   % =======================================================================
-  %                 DISTANCIA EUCLIDIANA ENTRE DOIS NUMEROS
+  %              FINDS THE EUCLIDIAN DISTANCE BETWEEN TWO VALUES
   % =======================================================================
-function result = euclidean_distance(c1, c2) % tira a distancia euclidiana
+function result = euclidean_distance(c1, c2) % Finds the Euclidian distance
   sum = 0.0; 
   for i = 1: length(c1)
       sum = sum + (c1(i)-c2(i))^2.0;
@@ -268,19 +268,19 @@ function result = euclidean_distance(c1, c2) % tira a distancia euclidiana
 end
 
   % =======================================================================
-  %                  DISTANCIA ENTRE UM VETOR E UM CONJUNTO
+  %               FINDS THE DISTANCE BETWEEN AN ARRAY AND A SET
   % =======================================================================
 function result = distance(v, set)
 soma = 0.0;
 for i = 1 : length(set)
-    soma = soma + set(i).vetor + euclidean_distance(v, set(i).vetor); % set.inject(0){|s,x| s + euclidean_distance(v, x[:vector])} # retorna a distancia euclidiana entre dois valores
-% talvez o set(i) n?o seja necessario
+    soma = soma + set(i).vetor + euclidean_distance(v, set(i).vetor); % set.inject(0){|s,x| s + euclidean_distance(v, x[:vector])} # retorns the Euclidian distance between two values
+% Sometimes the set(i) is not necessary
 end
   result = soma;
 end
 
   % =======================================================================
-  %              ORDENA EM FUNCAO DO MENOR PARA O MAIOR OBJETIVO
+  %           SORT FROM THE SMALLEST TO THE BIGGEST OBJECTIVE VALUE 
   % =======================================================================
 function result = ordena(estrutura)
   for i = 2 : length(estrutura)
@@ -296,7 +296,7 @@ result = estrutura;
 end
 
   % =======================================================================
-  %           ORDENA EM FUNCAO DO MAIOR PARA A MENOR DISTANCIA
+  %          SORT FROM THE SMALLEST TO THE BIGGEST DISTANCE VALUES 
   % =======================================================================
 function result = ordenaDistancia(estrutura)
   for i = 2 : length(estrutura)
@@ -312,7 +312,7 @@ result = estrutura;
 end
 
   % =======================================================================
-  %                        CRIA UMA STRUCT VAZIA
+  %                      CREATES AN EMPTY STRUCT
   % =======================================================================
 function resultStruct = CreateEmptySruct(tamanho)
     resultStruct.vetor = zeros(1,tamanho);
@@ -322,7 +322,7 @@ function resultStruct = CreateEmptySruct(tamanho)
 end
 
   % =======================================================================
-  %                 CRIA O PRIMEIRO CONJUNTO DE REFERENCIA
+  %                   CREATES THE FIRST REFERENCE SET
   % =======================================================================
 function result = diversify(diverse_set, num_elite, ref_set_size) % Cria o Reference Set
   diverse_set = ordena(diverse_set); % diverse_set.sort {|x,y| x[:cost] <=> y[:cost]} % Reference Set Update Method , reorganiza o diverse set dos que tem os menores custos para os maiores
