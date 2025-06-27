@@ -1,8 +1,8 @@
 %_________________________________________________________________________%
 %                                                                         %
 %                                                                         %
-%                         Artificial Neural Network                       %
-%                                  (ADALINE)                              %
+%                         ARTIFICIAL NEURAL NETWORK                       %
+%                          (ADALINE - Single layer)                       %
 %                                                                         %
 %                                          Developed by:                  %
 %                                                 Joao Augusto Silva Ledo %
@@ -62,7 +62,7 @@ function result = loadTrainingSet()
     inputTrainingList{8}.Value =  [-1, 0, 0, 0];
     inputTrainingList{8}.target = 1; % d
    tamanho = length(inputTrainingList);
-%     for(i = tamanho+1 : 2*tamanho)  % Aplica o ruido das 8 primeiras posicoes, para as 8 ultimas posicoes
+%     for(i = tamanho+1 : 2*tamanho)  % Applies the noise from the first 8 positions to the last 8 positions
 %         inputTrainingList{i}.Value = Ruido(inputTrainingList{i - tamanho}.Value, mi, delta_quad);
 %         inputTrainingList{i}.target = inputTrainingList{i - tamanho}.target;
 %     end
@@ -98,7 +98,7 @@ end
 function result = Ruido(x, mi, delta_quad)
         for(i = 1 : length(x))
             gama(i) = rand_in_bounds(mi, delta_quad);
-            x(i) = x(i) + gama(i)/5;  %Ruido branco gaussiano
+            x(i) = x(i) + gama(i)/5;  % Gaussian white noise
         end
     result = x;
 end
@@ -108,19 +108,19 @@ function result = rand_in_bounds(min, max)
 end
 
 function result = ChoseTraining()
-    resultado = input('Escolha: \n 1-Treinar a Rede Neural Artificial \n 2-Utilizar a Rede Neural Artificial \n 3-Treinar e Utilizar a Rede Neural Artificial \n');
+    resultado = input('Choose: \n 1-Training the Artificial Neural Network \n 2-Use the Artificial Neural Network \n 3-Training and Use the Artificial Neural Network \n');
     resultado = VerificaOpcao(resultado);
     result = resultado;
 end
 
 function result = VerificaOpcao(answer)
     while((answer ~= 1) && (answer ~= 2) && (answer ~= 3))
-       answer = input('Favor Escolher corretamente: \n 1-Treinar a Rede Neural Artificial \n 2-Utilizar a Rede Neural Artificial \n 3-Treinar e Utilizar a Rede Neural Artificial \n');
+       answer = input('Choose carefully: \n 1-Training the Artificial Neural Network \n 2-Use the Artificial Neural Network \n 3-Training and Use the Artificial Neural Network \n');
     end
     if(answer == 2)
         if(~exist('PerceptronTrainedNeuralNetwork.mat', 'file'))
             while((answer ~= 1) && (answer ~= 3))
-                answer = input('Favor Realizar o procedimento de treinamento da Rede Neural Artificial atraves de: \n 1-Treinar a Rede Neural Artificial \n 3-Treinar e Utilizar a Rede Neural Artificial \n');
+                answer = input('Please train the Artificial Neural Network first: \n 1-Training the Artificial Neural Network \n 3-Training and Use the Artificial Neural Network \n');
             end
         end
     end            
@@ -128,7 +128,7 @@ function result = VerificaOpcao(answer)
 end
 
 function result = TrainingAdaline(TrainingSet)
-    resultado.Nome = 'Rede Neural Artificial Adaline Treinada'; 
+    resultado.Nome = 'Adaline Artificial Neural Network Trained'; 
     seguranca = TrainingSet.Security;
     k = TrainingSet.k;
     nepta = TrainingSet.nepta;
@@ -166,9 +166,9 @@ function Grafico(k, Error)
         erro(i) = abs(Error(i+1)-Error(i));
     end
    plot(epocas, erro, 'r');
-   title('Comportamento do Erro Quadratico Medio');
-   ylabel('Erro Quadratico Medio');
-   xlabel('Epocas');
+   title('The Average Quadratic Tolerance Behavior');
+   ylabel('The Average Quadratic Tolerance');
+   xlabel('Epochs');
    grid;
 end
 
