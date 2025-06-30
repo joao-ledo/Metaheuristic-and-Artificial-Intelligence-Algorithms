@@ -1,8 +1,8 @@
 %_________________________________________________________________________%
 %                                                                         %
 %                                                                         %
-%                         Artificial Neural Network                       %
-%                         (Perceptron Multicamadas)                       %
+%                         ARTIFICIAL NEURAL NETWORK                       %
+%                          (Perceptron Multilayer)                        %
 %                                                                         %
 %                                          Developed by:                  %
 %                                                 Joao Augusto Silva Ledo %
