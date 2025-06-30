@@ -1,8 +1,8 @@
 %_________________________________________________________________________%
 %                                                                         %
 %                                                                         %
-%                         Artificial Neural Network                       %
-%                               (PERCEPTRON)                              %
+%                         ARTIFICIAL NEURAL NETWORK                       %
+%                        (PERCEPTRON - Single Layer)                      %
 %                                                                         %
 %                                          Developed by:                  %
 %                                                 Joao Augusto Silva Ledo %
@@ -69,19 +69,19 @@ function result = loadInputData()
 end
 
 function result = ChoseTraining()
-    resultado = input('Escolha: \n 1-Treinar a Rede Neural Artificial \n 2-Utilizar a Rede Neural Artificial \n 3-Treinar e Utilizar a Rede Neural Artificial \n');
+    resultado = input('Choose: \n 1-Training the Artificial Neural Network \n 2-Use the Artificial Neural Network \n 3-Training and Use the Artificial Neural Network \n');
     resultado = VerificaOpcao(resultado);
     result = resultado;
 end
 
 function result = VerificaOpcao(answer)
     while((answer ~= 1) && (answer ~= 2) && (answer ~= 3))
-       answer = input('Favor Escolher corretamente: \n 1-Treinar a Rede Neural Artificial \n 2-Utilizar a Rede Neural Artificial \n 3-Treinar e Utilizar a Rede Neural Artificial \n');
+       answer = input('Choose carefully: \n 1-Training the Artificial Neural Network \n 2-Use the Artificial Neural Network \n 3-Training and Use the Artificial Neural Network \n');
     end
     if(answer == 2)
         if(~exist('PerceptronTrainedNeuralNetwork.mat', 'file'))
             while((answer ~= 1) && (answer ~= 3))
-                answer = input('Favor Realizar o procedimento de treinamento da Rede Neural Artificial atrav?s de: \n 1-Treinar a Rede Neural Artificial \n 3-Treinar e Utilizar a Rede Neural Artificial \n');
+                answer = input('Please train the Artificial Neural Network first: \n 1-Training the Artificial Neural Network \n 3-Training and Use the Artificial Neural Network \n');
             end
         end
     end            
