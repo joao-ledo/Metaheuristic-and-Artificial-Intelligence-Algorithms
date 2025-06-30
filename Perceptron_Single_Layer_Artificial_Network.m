@@ -89,7 +89,7 @@ function result = VerificaOpcao(answer)
 end
 
 function result = TrainingPerceptron(TrainingSet)
-    resultado.Nome = 'Rede Neural Artificial Perceptron Treinada';   
+    resultado.Nome = 'Trained Artificial Neural Network';   
     k = TrainingSet.k;
     nepta = TrainingSet.nepta;
     Erro = TrainingSet.Erro;
@@ -98,8 +98,8 @@ function result = TrainingPerceptron(TrainingSet)
     while(Erro == true)
         Erro = false;
         for(i = 1 : length(inputTrainingList))
-            y{k} = sign(inputTrainingList{i}.Value*w{k}'); % funcao de ativacao
-            if(y{k} ~= inputTrainingList{i}.target) %Toda vez que um individuo novo da lista de input for testado e o y for diferente do valor desejado, toda a rede (bias-w) daquela itera??o tem que ser atualizada, e naquela itera??o existe erro pois a rede teve quje ser atualizada
+            y{k} = sign(inputTrainingList{i}.Value*w{k}'); % Activation Function
+            if(y{k} ~= inputTrainingList{i}.target) % Every time that a input value is tested and its y is different from the target value the wntire network (bias-w) from that iteration must be updated. The network has to be updated, due to the presence of a erro an error
                 w{k} = w{k} + nepta * (inputTrainingList{i}.target-y{k}) * inputTrainingList{i}.Value;
                 Erro = true;
             end
