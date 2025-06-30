@@ -19,7 +19,7 @@ end
 function result = loadInputData()
     resposta.TrainingPercent = 0.8;
     resposta.ValidationPercent = 0.2;
-    archive=xlsread('dados_EPC06_RBF.xls');
+    archive=xlsread('LOAD_DATA_FOR_CLUSTERING_DELTA_RULE.xls');
     [linha, coluna] = size(archive);
     for(i = 1 : linha)
        for(j = 1 : coluna-1)
