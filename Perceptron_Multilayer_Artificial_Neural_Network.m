@@ -77,19 +77,19 @@ function result = rand_in_bounds(min, max)
 end
 
 function result = ChoseTraining()
-    resultado = input('Escolha: \n 1-Treinar a Rede Neural Artificial \n 2-Utilizar a Rede Neural Artificial \n 3-Treinar e Utilizar a Rede Neural Artificial \n');
+    resultado = input('Choose: \n 1-Training the Artificial Neural Network \n 2-Use the Artificial Neural Network \n 3-Training and Use the Artificial Neural Network \n');
     resultado = VerificaOpcao(resultado);
     result = resultado;
 end
 
 function result = VerificaOpcao(answer)
     while((answer ~= 1) && (answer ~= 2) && (answer ~= 3))
-       answer = input('Favor Escolher corretamente: \n 1-Treinar a Rede Neural Artificial \n 2-Utilizar a Rede Neural Artificial \n 3-Treinar e Utilizar a Rede Neural Artificial \n');
+       answer = input('Choose carefully: \n 1-Training the Artificial Neural Network \n 2-Use the Artificial Neural Network \n 3-Training and Use the Artificial Neural Network \n');
     end
     if(answer == 2)
         if(~exist('PerceptronTrainedNeuralNetwork.mat', 'file'))
             while((answer ~= 1) && (answer ~= 3))
-                answer = input('Favor Realizar o procedimento de treinamento da Rede Neural Artificial atraves de: \n 1-Treinar a Rede Neural Artificial \n 3-Treinar e Utilizar a Rede Neural Artificial \n');
+                answer = input('Please train the Artificial Neural Network first: \n 1-Training the Artificial Neural Network \n 3-Training and Use the Artificial Neural Network \n');
             end
         end
     end            
@@ -97,7 +97,7 @@ function result = VerificaOpcao(answer)
 end
 
 function result = TrainingPerceptron_Multicamadas(TrainingSet)
-    resultado.Nome = 'Rede Neural Artificial Perceptron Multicamadas Treinada'; 
+    resultado.Nome = 'Trained Perceptron Multilayer Artificial Neural Network'; 
     seguranca = TrainingSet.Security;
     NeuroniosCamadaEscondida = TrainingSet.NeuroniosCamadaEscondida;
     k = TrainingSet.k;
@@ -199,28 +199,28 @@ end
 function GraficoRunning(NumeroTestes, y_saida, Dt, Erro_teste, Erro_Absoluto, Erro_Relativo_Medio, DesvioPadrao_Erro_Relativo, Erro_Absoluto_Medio, DesvioPadrao_Erro_Absoluto)
     subplot(3,1,2) 
     plot(1:NumeroTestes,Dt,'r',1:NumeroTestes,y_saida,'b')
-    title('TESTE: VALORES REAIS (verm.) X RNA (azul)');
+    title('TEST: REAL VALUES (red.) X RNA (blue)');
     ylabel('REAIS e RNA');
     xlabel('PADROES');
     grid 
     subplot(3,1,3) 
     plot(1:NumeroTestes,Erro_teste)
-    title('VALIDACAO: ERRO x PADRAO');
-    ylabel('ERRO');
-    xlabel('PADROES');
+    title('Validating: ERROR x PATTERN');
+    ylabel('ERROR');
+    xlabel('PATTERNS');
     grid 
     figure
     eixoX= 1:1:length(Dt);
     plot(eixoX,Dt,eixoX,y_saida)
     grid
-    xlabel('Amostras de teste','FontWeight','bold','Fontsize',11.5)
-    ylabel('Valores','FontWeight','bold','Fontsize',11.5)
-    legend('Valores de Observados','Valores Estimados')
-    title(['Valores Observadas x Estimadas: ERM(%)=', num2str(Erro_Relativo_Medio,3),', DP(%)=', num2str(DesvioPadrao_Erro_Relativo,3)],'FontWeight','bold','Fontsize',11.5)
+    xlabel('Sample Tests','FontWeight','bold','Fontsize',11.5)
+    ylabel('Values','FontWeight','bold','Fontsize',11.5)
+    legend('Observed Values','Estimated Values')
+    title(['Observed Values x Estimated: ERM(%)=', num2str(Erro_Relativo_Medio,3),', DP(%)=', num2str(DesvioPadrao_Erro_Relativo,3)],'FontWeight','bold','Fontsize',11.5)
     figure
     plot(eixoX,Erro_Absoluto)
     grid
-    xlabel('Amostras de teste','FontWeight','bold','Fontsize',11.5)
-    ylabel('Erro absoluto','FontWeight','bold','Fontsize',11.5)
-    title(['Erros absolutos: EAM(%)=', num2str(Erro_Absoluto_Medio,3),', DPEa(%)=', num2str(DesvioPadrao_Erro_Absoluto,3)],'FontWeight','bold','Fontsize',11.5)
+    xlabel('Sample Tests','FontWeight','bold','Fontsize',11.5)
+    ylabel('Absolute Error','FontWeight','bold','Fontsize',11.5)
+    title(['Absolute Errors: EAM(%)=', num2str(Erro_Absoluto_Medio,3),', DPEa(%)=', num2str(DesvioPadrao_Erro_Absoluto,3)],'FontWeight','bold','Fontsize',11.5)
 end
