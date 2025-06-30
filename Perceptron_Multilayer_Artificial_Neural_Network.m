@@ -2,7 +2,7 @@
 %                                                                         %
 %                                                                         %
 %                         ARTIFICIAL NEURAL NETWORK                       %
-%                          (Perceptron Multilayer)                        %
+%                         (PERCEPTRON - Multilayer)                       %
 %                                                                         %
 %                                          Developed by:                  %
 %                                                 Joao Augusto Silva Ledo %
@@ -183,7 +183,7 @@ function result = runPerceptron_Multicamadas(TrainedNeuralNetwork, inputData, k)
     Erro_Absoluto_Medio=mean(Erro_Absoluto);
     DesvioPadrao_Erro_Absoluto=std(Erro_Absoluto);
     GraficoRunning(length(inputData.inputDataList), y_saida, Dt, Erro_teste, Erro_Absoluto, Erro_Relativo_Medio, DesvioPadrao_Erro_Relativo, Erro_Absoluto_Medio, DesvioPadrao_Erro_Absoluto);
-    resultado.Nome = 'Perceptron_Multicamadas';
+    resultado.Nome = 'Perceptron_Multilayer';
     resultado.Treining = TrainedNeuralNetwork;
     resultado.Classification = ClassifiedInputData;
     resultado.Erro_teste = Erro_teste;
