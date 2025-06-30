@@ -7,6 +7,7 @@
 %                                          Developed by:                  %
 %                                                 Joao Augusto Silva Ledo %
 %_________________________________________________________________________%
+
 function result = ClusteringRegraDelta()
     clear all;
     close all
@@ -138,7 +139,7 @@ function result = TrainingPerceptron_Multicamadas(TrainingSet)
                 vetor{k}=inputTrainingList{i}.Value - w{k}{2}(j);
                 distancia{k}(i,j)=norm(vetor{k});
             end
-            grupo(i)=1;                       % inicio do agrupamento
+            grupo(i)=1;                       % Starting Grouping
             for(j=1:TrainingSet.NeuroniosCamadaEscondida-1)
                 menor_dist{k}=distancia{k}(i,j);
                 if(menor_dist{k} > distancia{k}(i, j+1))
@@ -153,7 +154,7 @@ function result = TrainingPerceptron_Multicamadas(TrainingSet)
 %                 end
 %             end
 %            plot(mat(:, 1), mat(:, 2),'+', w{1}{1}{1} , w{1}{1}{2},'ro');
-            soma=zeros(NeuroniosCamadaEscondida,2);            % inicio do calculo do novo centroide
+            soma=zeros(NeuroniosCamadaEscondida,2);            % Starting the calculum of the new centroid
             elementos_w1=zeros(1,TrainingSet.NeuroniosCamadaEscondida);
             for(i=1:length(inputTrainingList))
                  for(j=1:NeuroniosCamadaEscondida)
@@ -163,7 +164,7 @@ function result = TrainingPerceptron_Multicamadas(TrainingSet)
                          w{k}{1}{j} = soma(j,:)/elementos_w1(1,j);
                      end
                  end
-            end                                    % fim do calculo do novo centroide
+            end                                    % Ending the calculum of the new centroid
                 soma_dif2=zeros(NeuroniosCamadaEscondida,1);
                 num_padr=zeros(NeuroniosCamadaEscondida,1);
                 for(j=1:NeuroniosCamadaEscondida)
