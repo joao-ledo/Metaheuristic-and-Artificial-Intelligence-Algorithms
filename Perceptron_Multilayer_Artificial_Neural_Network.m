@@ -200,8 +200,8 @@ function GraficoRunning(NumeroTestes, y_saida, Dt, Erro_teste, Erro_Absoluto, Er
     subplot(3,1,2) 
     plot(1:NumeroTestes,Dt,'r',1:NumeroTestes,y_saida,'b')
     title('TEST: REAL VALUES (red.) X RNA (blue)');
-    ylabel('REAIS e RNA');
-    xlabel('PADROES');
+    ylabel('Real and RNA');
+    xlabel('PATTERNS');
     grid 
     subplot(3,1,3) 
     plot(1:NumeroTestes,Erro_teste)
