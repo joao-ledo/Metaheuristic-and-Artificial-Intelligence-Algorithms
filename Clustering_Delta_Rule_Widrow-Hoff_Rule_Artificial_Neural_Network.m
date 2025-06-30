@@ -223,9 +223,9 @@ function GraficoTreinamento(k, Error)
     end   
      subplot(3,1,1) 
      plot(epocas, erro, 'r');
-     title('EQM x EPOCAS');
+     title('EQM x EPOCHS');
      ylabel('EQM');
-     xlabel('EPOCA');
+     xlabel('EPOCHS');
      grid
 end
 
@@ -249,7 +249,7 @@ function result = runPerceptron_Multicamadas(TrainedNeuralNetwork, inputData, k)
     Erro_Absoluto_Medio=mean(Erro_Absoluto);
     DesvioPadrao_Erro_Absoluto=std(Erro_Absoluto);
     GraficoRunning(length(inputData.inputDataList), y_saida, Dt, Erro_teste, Erro_Absoluto, Erro_Relativo_Medio, DesvioPadrao_Erro_Relativo, Erro_Absoluto_Medio, DesvioPadrao_Erro_Absoluto, TrainedNeuralNetwork);
-    resultado.Nome = 'Clustering Regra Delta';
+    resultado.Nome = 'Clustering Delta Rule';
     resultado.Treining = TrainedNeuralNetwork;
     resultado.Classification = ClassifiedInputData;
     resultado.Erro_teste = Erro_teste;
@@ -269,36 +269,36 @@ function GraficoRunning(NumeroTestes, y_saida, Dt, Erro_teste, Erro_Absoluto, Er
     end   
     subplot(3,1,1) 
     plot(epocas, erro, 'r');
-    title('EQM x EPOCAS');
+    title('EQM x EPOCHS');
     ylabel('EQM');
-    xlabel('EPOCA');
+    xlabel('EPOCHS');
     grid
     subplot(3,1,2) 
     plot(1:NumeroTestes,Dt,'r',1:NumeroTestes,y_saida,'b')
-    title('TESTE: VALORES REAIS (verm.) X RNA (azul)');
-    ylabel('REAIS e RNA');
-    xlabel('PADROES');
+    title('TEST: REAL VALUES (red.) X RNA (blue)');
+    ylabel('Real and RNA');
+    xlabel('PATTERNS');
     grid 
     subplot(3,1,3) 
     plot(1:NumeroTestes,Erro_teste)
-    title('VALIDACAO: ERRO x PADRAO');
-    ylabel('ERRO');
-    xlabel('PADROES');
+    title('Validating: ERROR x PATTERN');
+    ylabel('ERROR');
+    xlabel('PATTERNS');
     grid 
     figure
     eixoX= 1:1:length(Dt);
     plot(eixoX,Dt,eixoX,y_saida)
     grid
-    xlabel('Amostras de teste','FontWeight','bold','Fontsize',11.5)
-    ylabel('Valores','FontWeight','bold','Fontsize',11.5)
-    legend('Valores de Observados','Valores Estimados')
-    title(['Valores Observadas x Estimadas: ERM(%)=', num2str(Erro_Relativo_Medio,3),', DP(%)=', num2str(DesvioPadrao_Erro_Relativo,3)],'FontWeight','bold','Fontsize',11.5)
+    xlabel('Sample Tests','FontWeight','bold','Fontsize',11.5)
+    ylabel('Values','FontWeight','bold','Fontsize',11.5)
+    legend('Observed Values','Estimated Values')
+    title(['Observed Values x Estimated: ERM(%)=', num2str(Erro_Relativo_Medio,3),', DP(%)=', num2str(DesvioPadrao_Erro_Relativo,3)],'FontWeight','bold','Fontsize',11.5)
     figure
     plot(eixoX,Erro_Absoluto)
     grid
-    xlabel('Amostras de teste','FontWeight','bold','Fontsize',11.5)
-    ylabel('Erro absoluto','FontWeight','bold','Fontsize',11.5)
-    title(['Erros absolutos: EAM(%)=', num2str(Erro_Absoluto_Medio,3),', DPEa(%)=', num2str(DesvioPadrao_Erro_Absoluto,3)],'FontWeight','bold','Fontsize',11.5)
+    xlabel('Sample Tests','FontWeight','bold','Fontsize',11.5)
+    ylabel('Absolute Error','FontWeight','bold','Fontsize',11.5)
+    title(['Absolute Errors: EAM(%)=', num2str(Erro_Absoluto_Medio,3),', DPEa(%)=', num2str(DesvioPadrao_Erro_Absoluto,3)],'FontWeight','bold','Fontsize',11.5)
         for(i=1:length(TrainedNeuralNetwork.Lista_de_Treinamento))
                if(TrainedNeuralNetwork.grupo(i)==1)
                        plot(TrainedNeuralNetwork.Lista_de_Treinamento{i}.Value(1),TrainedNeuralNetwork.Lista_de_Treinamento{i}.Value(2),'ro')
