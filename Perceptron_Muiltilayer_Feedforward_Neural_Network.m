@@ -2,7 +2,7 @@
 %                                                                         %
 %                                                                         %
 %                         ARTIFICIAL NEURAL NETWORK                       %
-%                         (PERCEPTRON - Multilayer)                       %
+%                    (PERCEPTRON - Multilayer Feedforward)                %
 %                                                                         %
 %                                          Developed by:                  %
 %                                                 Joao Augusto Silva Ledo %
