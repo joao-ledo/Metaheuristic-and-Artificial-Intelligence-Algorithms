@@ -95,7 +95,7 @@ function result=genetico()
    %                         STARTING GENERATIONS
    % ======================================================================
     for Geracao_Atual = 1 : quantidade_de_geracoes
-        % SELECIONA INDIVIDUOS MAIS APTOS DA POPULACAO 
+        % SELECTS, IN A POPULATION, THE BEST INDIVIDUALS BASED ON ITS FITNESS VALUES
         probSelecao = aptidao(populacao, ai, bi, ci, ei, fi, pgiMin, pgiMax, pd);
         
    % ======================================================================
@@ -106,7 +106,7 @@ function result=genetico()
             pai1 = selecao(populacao,probSelecao);
             pai2 = selecao(populacao,probSelecao);
             filhos(:,k:k+1) = crossover(pai1, pai2, tamCromossomo, taxaCross, problemSize);
-            % Contar dois, pois cada casal tem dois filhos
+            % COUNTS 2 BECAUSE EACH COUPLE HAVE TWO KIDS
             k = k+2;
         end
         
