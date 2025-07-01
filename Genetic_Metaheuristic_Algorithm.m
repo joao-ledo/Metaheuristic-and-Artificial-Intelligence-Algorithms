@@ -1,16 +1,19 @@
 
 % ======================================================================= %
 %                                                                         %
-%                            ALGORITMO GENETICO                           %
+%                             GENETIC ALGORITHM                           %
 %                                                                         %
 %                                    Developed by Joao Augusto Silva Ledo %
 % ======================================================================= %
+
+% Genetic Algorithm for Economic Dispatch problem involving objective function with no gradient
+
 function result=genetico()
     clear all;
     clc;
     format long;
   % =======================================================================
-  %                   CONFIGURACOES DO ALGORITMO GEN?TICO
+  %                       GENETIC ALGORITHM SETTINGS
   % =======================================================================  
     populationSize = 50;
     tamCromossomo = 16;
@@ -19,7 +22,7 @@ function result=genetico()
     quantidade_de_geracoes = 100;
     
   % =======================================================================
-  %                             3 GERADORES
+  %                             3 GENERATORS
   % =======================================================================
   problemSize = 3;
   ai = [0.001562, 0.00482, 0.00194];
@@ -32,7 +35,7 @@ function result=genetico()
   pd = 850; 
     
   % =======================================================================
-  %                             13 GERADORES
+  %                             13 GENERATORS
   % =======================================================================
 %    problemSize = 13;
 %    pgiMin = [0.0, 0.0, 0.0, 60.0, 60.0, 60.0, 60.0, 60.0, 60.0, 40.0, 40.0, 55.0, 55.0];
@@ -47,7 +50,7 @@ function result=genetico()
  %  valor_de_checagem = [335.74828944698515, 329.9885016636184, 312.09664712366066, 178.9963562768947, 179.49083765964065, 178.41229394265716, 179.472315807014, 174.19890950865292, 178.96794196461232, 115.13864931364739, 119.93553693163678, 117.60047338334431, 119.95324697763598];
 
   % =======================================================================
-  %                             3 GERADORES
+  %                             3 GENERATORS
   % =======================================================================
     %  problemSize = 3;  
     %  pgiMin=[150.0, 135.0, 73.0] ;
@@ -60,7 +63,7 @@ function result=genetico()
     %  pd = 650;
 
    % ======================================================================
-   %                             40 GERADORES
+   %                             40 GENERATORS
    % ======================================================================
 %      problemSize = 40;
 %      pgiMin = [36, 36,	60,	80,	47,	68,	110,	135,	135,	130,	94,	94,	125,	125, 125,	125,	220,	220,	242, 242,	254,	254,	254,	254, 254,	254,	10,	10,	10,	47,	60 ,60, 60, 90, 90, 90, 25, 25, 25, 242];
@@ -75,7 +78,7 @@ function result=genetico()
 %      valor_de_checagem = [113.81997227639769, 113.96086950240407, 119.7271480296845, 189.373988885039, 96.25494633948203, 139.89824562269555, 299.5588648367807, 298.7538444742643, 297.35724691567543, 299.99063055110815, 368.4645811193757, 366.13605382962254, 463.99969923070046, 470.05222702221914, 461.6969007250843, 462.60691046568326, 471.34414701872055, 476.91572903130265, 507.47533792734225, 388.94323728754165, 275.33939243624565, 268.89150289962595, 280.16251802332374, 282.8610523777999, 278.94259182544175, 289.8422075117647, 149.45482859633145, 149.8949037855257, 149.85779206455027, 96.26569559888561, 189.86806860591054, 189.92720966485228, 189.70314759426083, 199.43637721511797, 199.9103196523829, 199.43066935814832, 109.72189038143304, 109.80553160663155, 109.59696116136752, 374.7567585492781];
    
    % ======================================================================
-   %                           CRIA A POPULACAO INICIAL
+   %                      CREATING THE FIRST POPULATION
    % ======================================================================
    for j=1:populationSize  - 1
         pgi=random_vector(populationSize, problemSize, pgiMax, pgiMin, ai, bi, ci, ei, fi, pd);
@@ -89,14 +92,14 @@ function result=genetico()
     [iPopulacao, jPopulacao] = size(populacao);
 
    % ======================================================================
-   %                         INICIO DAS GERACOES
+   %                         STARTING GENERATIONS
    % ======================================================================
     for Geracao_Atual = 1 : quantidade_de_geracoes
         % SELECIONA INDIVIDUOS MAIS APTOS DA POPULACAO 
         probSelecao = aptidao(populacao, ai, bi, ci, ei, fi, pgiMin, pgiMax, pd);
         
    % ======================================================================
-   %       ETAPA DE SELECAO DOS PAIS PARA CRIAR FILHOS POR CROSS-OVER
+   %   SELECTING PARENTS AND CROSSING OVER TO CREATE THE FIRST OFFSPRING
    % ======================================================================
         k = 1;
         while (k <= jPopulacao)
@@ -108,26 +111,27 @@ function result=genetico()
         end
         
    % ======================================================================
-   %                              ETAPA DA MUTACAO
+   %                            MUTATION STEP
    % ======================================================================
     filhos = mutacao(filhos, tamCromossomo, taxaMutacao, problemSize);
 
    % ======================================================================
-   %      ETAPA DA CRIACAO DA NOVA POPULACAO COM OS MELHORES INDIVIDUOS
+   %        CREATING NEW POPULATION BY SELECTING THE BEST INDIVIDUALS
    % ======================================================================
         populacao = elitismo(populacao, filhos, pgiMin, pgiMax, ai, bi, ci, ei, fi, pd);
         Geracao_Atual
     end  
     
    % ======================================================================
-   %   CALCULO DA FUNCAO OBJETIVO E DO TOTAL DEMANDADO DA POPULACAO FINAL
+   %    CALCULATING THE OBJECTIVE FUNCTION AND THE TOTAL POWER SUPPLY 
+   %                        TO THE LAST POPPULATION
    % ======================================================================
     for t=1:length(populacao)     
       populacao{2,t} = correcao(populacao{1,t}, pgiMin, pgiMax, ai, bi, ci, ei, fi, pd);
       populacao{3,t} = soma(populacao{1,t});
     end
    % ======================================================================
-   %                              RESULTADO
+   %                               OUTCOME
    % ======================================================================
 
 
@@ -153,7 +157,7 @@ end
 
 
 % =========================================================================
-%                       FUNCAO QUE CALCULA O ELITISMO
+%                        FINDS THE ELITE EDIVIDUALS
 % =========================================================================
 function result = elitismo(populacao, filhos, pgiMin, pgiMax, ai, bi, ci, ei, fi, pd)   
             for r=1:length(populacao)
@@ -168,7 +172,7 @@ function result = elitismo(populacao, filhos, pgiMin, pgiMax, ai, bi, ci, ei, fi
 end
 
 %==========================================================================
-% FUNCAO QUE CRIA ALEATORIAMENTE POTENCIA GERADA ENTRE MAXIMOS E MINIMOS
+%               RANDOM IN BOUNDARIES FUNCTION FOR POWER SUPPLY
 %==========================================================================
     function result=random_vector(populationSize, problemSize, pgiMax, pgiMin, ai, bi, ci, ei, fi, pd)
         for i=1:problemSize % problemSize-1 para a barra Sleck
@@ -178,7 +182,7 @@ end
     end
     
 %==========================================================================
-%                           FUNCAO QUE SOMA VALORES 
+%                               SUMMING VALUES 
 %==========================================================================    
     function result=soma(pgi)
         soma = 0;
@@ -190,25 +194,26 @@ end
     
     
 %==========================================================================
-%   CALCULO DA APTIDAO DE UM INDIVIDU EM DETRIMENTO DE SUA FUNCAO OBJETIVO
+%      CALCULATING THE FITNESS BASED ON THE OBJECTIVE FUNCTION VALUE
+%                            OF EACH INDIVIDUAL
 %==========================================================================
 function result=aptidao(populacao, ai, bi, ci, ei, fi, pgiMin, pgiMax, pd)
-    % Numero da populacao
+    % Total population number
     [iTotal,jTotal] = size(populacao);
     for i=1:iTotal     
         k = 1;    
         for j=1:jTotal  
-              f(i,k) = 1/correcao(populacao{1,j}, pgiMin, pgiMax, ai, bi, ci, ei, fi, pd);% MINIMIZA A FUNCAO OBJETIVO        
+              f(i,k) = 1/correcao(populacao{1,j}, pgiMin, pgiMax, ai, bi, ci, ei, fi, pd);% MINIMIZING THE OBJECTIVE FUNCTION        
             k = k+1;
         end
     end
-    % Calcular a aptidao
+    % Calculating the fitness
     apitdao = (f / sum(f)) * 100;
     result = apitdao;
 end
 
 %==========================================================================
-%                FUNCAO DO CALCULO DA FUNCAO OBJETIVO
+%                   FINDING THE OBJECTIVE FUNCTION VALUE
 %==========================================================================
  function result = objetivo(pgi, ai, bi, ci, ei, fi, pgiMin)
      soma = 0; 
@@ -219,7 +224,7 @@ end
  end
 
 %==========================================================================
-%                   FUNCAO DE PENALISACAO DA FUNCAO OBJETIVO
+%                     OBJECTIVE FUNCTION PENALTY TERM
 %==========================================================================    
 function result = correcao(pgi, pgiMin, pgiMax, ai, bi, ci, ei, fi, pd)
        erro = abs(pd-soma(pgi));
@@ -237,14 +242,14 @@ function result = correcao(pgi, pgiMin, pgiMax, ai, bi, ci, ei, fi, pd)
 end
  
 % =========================================================================
-%                           FUNCAO DA ROLETA 
+%                           SELECTING WHEEL FUNCTION 
 % =========================================================================
 function result=roleta(probselec, nJogadas)
-% Intervalo de cada area
+% Gap between areas
 [lin, nArea] = size(probselec);
 min = zeros(lin,nArea);
 max = zeros(lin,nArea);
-% Frequencia dos resultados em cada area
+% Ocurrency resulting frequency of each area
 y = zeros(lin,nArea);
 for i=1:nArea
     if(i == 1)
@@ -255,10 +260,10 @@ for i=1:nArea
         max(i) = min(i)+probselec(i) -1;
     end    
 end
-% Deixar apenas a parte inteira
+% Finds the integer portion
 min = ceil(min);
 max = ceil(max);
-% Numero de jogadas a serem realizadas
+% Total amount of played time
 for i=1:nJogadas
     rodada = ceil(rand*100);    
     % procurar no vetor de minimos
@@ -272,7 +277,7 @@ result = y;
 end
 
 %==========================================================================
-%         FUNCAO QUE SELECIONA INDIVIDUOS MAIS APTOS ATRAVES DA ROLETA
+%FINDING THE MOST FITTING INDIVIDUALS BY USING THE SELECTING WHEEL FUNCTION
 %==========================================================================
 function result=selecao(populacao, probSelecao)
     candidato = roleta(probSelecao,1);
@@ -281,7 +286,7 @@ function result=selecao(populacao, probSelecao)
 end
 
 %==========================================================================
-% FUN?AO DO CROSS-OVER BINARIO DOS PAIS SELECIONADOS PARA PRODUZIR FILHOS
+%      PARENTS' BINARY CROSSOVER FUNCTION TO CONCEIVE ITS OFFSPRING
 %==========================================================================
 function result=crossover(pai1,pai2, tamCromossomo, taxaCross, problemSize);
     % Transforma os pais em binario
