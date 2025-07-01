@@ -242,7 +242,7 @@ function result = correcao(pgi, pgiMin, pgiMax, ai, bi, ci, ei, fi, pd)
 end
  
 % =========================================================================
-%                           SELECTING WHEEL FUNCTION 
+%                          SELECTING WHEEL FUNCTION 
 % =========================================================================
 function result=roleta(probselec, nJogadas)
 % Gap between areas
