@@ -148,7 +148,7 @@ end
 %     resultado.Demanda = populacao{3,1};
 %     resultado.Geracao = Geracao_Atual;
 
-    resultado.Nome = 'Algoritmo Genetico';
+    resultado.Nome = 'Genetic Algorithm';
     resultado.Geradores = geradores;
     resultado.FO = FO;
     resultado.Demanda = Demanda;
