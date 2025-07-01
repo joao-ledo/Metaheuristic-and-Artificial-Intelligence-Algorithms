@@ -106,7 +106,7 @@ function result=genetico()
             pai1 = selecao(populacao,probSelecao);
             pai2 = selecao(populacao,probSelecao);
             filhos(:,k:k+1) = crossover(pai1, pai2, tamCromossomo, taxaCross, problemSize);
-            % COUNTS 2 BECAUSE EACH COUPLE HAVE TWO KIDS
+            % COUNTS 2 BECAUSE EACH COUPLE HAS TWO KIDS
             k = k+2;
         end
         
@@ -289,23 +289,23 @@ end
 %      PARENTS' BINARY CROSSOVER FUNCTION TO CONCEIVE ITS OFFSPRING
 %==========================================================================
 function result=crossover(pai1,pai2, tamCromossomo, taxaCross, problemSize);
-    % Transforma os pais em binario
+    % Transforms the parents into banary values
     pai1 = dec2bin(pai1{1},tamCromossomo);
     pai2 = dec2bin(pai2{1},tamCromossomo);
-    % existe uma taxa de cross-over na popula??o em porcentagem do total
+    % There is a crossover rate in the population in respect to a percentage of its total value
     crossover = roleta([taxaCross 100-taxaCross], 1); 
     for i=1:problemSize
-        if crossover(1,1) == 1 % aplica aleatoriamente o cross-over respeitando a quantidade de cross-over estipulada       
-        % Cortar o cromossomo de forma aleat?ria
+        if crossover(1,1) == 1 % uses randomly the crossover rate respecting the maximum number of crossover values       
+        % trims the chromosome randomly 
             corte = floor(tamCromossomo * rand(1,1))+1;
-            % Primeiro Filho {os n primeiros valores do tamanho do problema}
+            % the first n kids related to the size of the problem
                 filho1(i, 1:corte) = pai1(i, 1:corte);
                 filho1(i, corte+1:tamCromossomo) = pai2(i, corte+1:tamCromossomo);     
-                 % Segundo Filho {os n valores do tamanho do problema apos os primeiros filhos}
+                 % the second n kids related to the size of the problem
                  filho2(i, 1:corte) = pai2(i, 1:corte);
                  filho2(i, corte+1:tamCromossomo) = pai1(i, corte+1:tamCromossomo);
-                 filhos = {bin2dec(filho1),bin2dec(filho2)}; % cria a populacao de filhos ja convertidos de binario para decimal                        
-        % Se nao acontecer o cross-over, entao os filhos serao iguais aos pais
+                 filhos = {bin2dec(filho1),bin2dec(filho2)}; % Creates the first offspring population already converted its values from binary to decimal                        
+        % When there is no crossover, the kids are identical to its parents
         else
             filhos{1} = bin2dec(pai1);
             filhos{2} = bin2dec(pai2);
@@ -315,39 +315,34 @@ function result=crossover(pai1,pai2, tamCromossomo, taxaCross, problemSize);
 end
 
 %==========================================================================
-%                   FUNCAO DA MUTACAO DE ALGUNS FILHOS
+%                      MUTATION FUNCTION ON SOME KIDS
 %==========================================================================
 function result=mutacao(filhos, tamCromossomo, taxaMutacao, problemSize)
-% existe uma taxa de mutacao na popula??o em porcentagem do total
+% There is a certain number rete regarding to the mutation in a population concerning to its total percentage
     mutacao = roleta([taxaMutacao, 100-taxaMutacao], 1);
     [nJ, nFilhos] = size(filhos);
     for i=1:nFilhos
           filhos{i} =  dec2bin(filhos{i},tamCromossomo);
     end
 
-    % aplica aleatoriamente a mutacao respeitando a quantidade de mutacao estipulada
+    % Uses randomly the mutation respecting the total amount of mutation accepted
     if mutacao(1,1) == 1       
-        % Escolhe um filho para ser mutado
+        % Targets a kid to mutate
         mutante = floor(nFilhos * rand(1,1))+1;
-        % Escolhe um bit para ser mutato
+        % Chooses randomly a number (nBit) that represents a bit to be mutated
         nBit = floor(tamCromossomo * rand(1,1))+1;
-        % seleciona o bit que ser? mutado
+        % Selects the kid's bit to mutate based on the nBit chosen number
         bitAtual = filhos{mutante}(1,nBit,1);
 
-        % Fazer a mutacao em apenas um bit
-        % Essa transformacao dec2bin em um numero e necessaria porque o matlab encherga o numero
-        % binario como uma string, logo para trocar um bit de 1 para 0 ou 0 para 1,
-        % e necessario que esse 0 ou 1 seja uma string e nao um double como
-        % os numros decimais sao enchergados
         if bitAtual == dec2bin(1) 
             bitMutante = dec2bin(0);
         else
             bitMutante = dec2bin(1);
         end        
-        % Altera um bit no filho escolhido
+        % Implements the mutation into the chosen kid
         filhos{mutante}(nBit) = bitMutante;
     end
-    % Transformar de binario para decimal
+    % Converts binary values to decimal
   for j=1:nFilhos
     for s=1:problemSize
         filhotes{j} = bin2dec(filhos{j});
