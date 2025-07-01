@@ -175,10 +175,10 @@ end
 %               RANDOM IN BOUNDARIES FUNCTION FOR POWER SUPPLY
 %==========================================================================
     function result=random_vector(populationSize, problemSize, pgiMax, pgiMin, ai, bi, ci, ei, fi, pd)
-        for i=1:problemSize % problemSize-1 para a barra Sleck
+        for i=1:problemSize % problemSize-1 for Slack bus (swing bus - refrence bus)
                 pgi(i) = (rand() * (pgiMax(i)-pgiMin(i))) + pgiMin(i);      
         end
-        result = pgi; %[pgi,abs(pd - soma(pgi))] <--------------barra sleck
+        result = pgi; %[pgi,abs(pd - soma(pgi))] <--------------Slack Bus (swing bus - refrence bus)
     end
     
 %==========================================================================
